@@ -3,13 +3,13 @@
     <div class="card-header" :id="'reply-' + id" :class="isBest ? 'bg-warning text-dark' : ''">
       <div class="d-flex justify-content-start align-items-center">
         <div class="flex-grow-1">
-          <a :href="'/profiles/' + data.owner.name" v-text="data.owner.name"></a>
+          <a :href="'/profiles/' + reply.owner.name" v-text="reply.owner.name"></a>
           Posté
           <span v-text="ago"></span>
         </div>
 
         <div v-if="signedIn">
-          <favorite :reply="data"></favorite>
+          <favorite :reply="reply"></favorite>
         </div>
       </div>
     </div>
@@ -35,8 +35,11 @@
       <div v-else v-html="body"></div>
     </div>
 
-    <div class="card-footer d-flex">
-      <div v-if="authorize('updateReply', reply)">
+    <div
+      class="card-footer d-flex"
+      v-if="authorize('owns', reply) || authorize('owns', reply.thread)"
+    >
+      <div v-if="authorize('owns', reply)">
         <button class="btn btn-dark btn-sm mr-2" @click="editing = true" v-if="!editing">
           <i class="fas fa-pencil-alt pr-1"></i> Editer
         </button>
@@ -50,7 +53,7 @@
         class="ml-auto btn btn-sm btn-warning"
         title="Meilleur Réponse?"
         @click="markBestReply"
-        v-show="!isBest"
+        v-if="authorize('owns', reply.thread)"
       >
         <i class="far fa-star"></i>
       </button>
@@ -63,34 +66,33 @@ import Favorite from "./Favorite.vue";
 import moment from "moment"; // momentjs est un petit module permettant de travailler sur les dates (voir site)
 
 export default {
-  props: ["data"],
+  props: ["reply"],
 
   components: { Favorite },
 
   data() {
     return {
       editing: false,
-      id: this.data.id,
-      body: this.data.body,
-      isBest: this.data.isBest, // Récupère la variable init dans le modèle Reply
-      reply: this.data
+      id: this.reply.id,
+      body: this.reply.body,
+      isBest: this.reply.isBest // Récupère la variable init dans le modèle Reply
     };
   },
 
   computed: {
     ago() {
       moment.locale("fr");
-      var m = moment(this.data.created_at);
+      var m = moment(this.reply.created_at);
       return m.fromNow();
-      // return moment(this.data.created_at).fromNow();
+      // return moment(this.reply.created_at).fromNow();
     }
     // signedIn() {
     //   return window.App.signedIn;
     // }
     // N'est plus exploité voir fichier authorizations dans JS
     // canUpdate() {
-    //   return this.authorize(user => this.data.user_id == user.id);
-    //   // return this.data.user_id == window.App.user.id;
+    //   return this.authorize(user => this.reply.user_id == user.id);
+    //   // return this.reply.user_id == window.App.user.id;
     // }
   },
 
@@ -105,7 +107,7 @@ export default {
   methods: {
     update() {
       axios
-        .put("/replies/" + this.data.id, {
+        .put("/replies/" + this.id, {
           body: this.body
         })
         .catch(error => {
@@ -118,11 +120,11 @@ export default {
     },
 
     destroy() {
-      axios.delete("/replies/" + this.data.id);
+      axios.delete("/replies/" + this.reply.id);
 
       // Crée un event vers Replies.vue parent de Reply
       // Cela va signifier à replies qu'une réponse à été supprimée et qu'il faut mettre à jour la liste
-      this.$emit("deleted", this.data.id);
+      this.$emit("deleted", this.reply.id);
 
       // $(this.$el).fadeOut(800);
 
@@ -132,10 +134,10 @@ export default {
     markBestReply() {
       // this.isBest = true;
 
-      axios.post("/replies/" + this.data.id + "/best");
+      axios.post("/replies/" + this.reply.id + "/best");
 
       // Préparation de l'evenement qui servira à faire le toggle sur le marquage de la meilleur réponse - Si une autre réponse avait déjà été mise en surbrillance elle reprendra sa forme normal si on sélectionne une autre réponse comme étant meilleur
-      window.events.$emit("best-reply-selected", this.data.id);
+      window.events.$emit("best-reply-selected", this.reply.id);
     }
   }
 };

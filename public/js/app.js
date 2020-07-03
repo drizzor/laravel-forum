@@ -3661,36 +3661,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
  // momentjs est un petit module permettant de travailler sur les dates (voir site)
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["data"],
+  props: ["reply"],
   components: {
     Favorite: _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
     return {
       editing: false,
-      id: this.data.id,
-      body: this.data.body,
-      isBest: this.data.isBest,
-      // Récupère la variable init dans le modèle Reply
-      reply: this.data
+      id: this.reply.id,
+      body: this.reply.body,
+      isBest: this.reply.isBest // Récupère la variable init dans le modèle Reply
+
     };
   },
   computed: {
     ago: function ago() {
       moment__WEBPACK_IMPORTED_MODULE_1___default.a.locale("fr");
-      var m = moment__WEBPACK_IMPORTED_MODULE_1___default()(this.data.created_at);
-      return m.fromNow(); // return moment(this.data.created_at).fromNow();
+      var m = moment__WEBPACK_IMPORTED_MODULE_1___default()(this.reply.created_at);
+      return m.fromNow(); // return moment(this.reply.created_at).fromNow();
     } // signedIn() {
     //   return window.App.signedIn;
     // }
     // N'est plus exploité voir fichier authorizations dans JS
     // canUpdate() {
-    //   return this.authorize(user => this.data.user_id == user.id);
-    //   // return this.data.user_id == window.App.user.id;
+    //   return this.authorize(user => this.reply.user_id == user.id);
+    //   // return this.reply.user_id == window.App.user.id;
     // }
 
   },
@@ -3704,7 +3706,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     update: function update() {
-      axios.put("/replies/" + this.data.id, {
+      axios.put("/replies/" + this.id, {
         body: this.body
       })["catch"](function (error) {
         flash(error.response.data.errors.body[0], "danger");
@@ -3713,18 +3715,18 @@ __webpack_require__.r(__webpack_exports__);
       flash("Modification effectuée!");
     },
     destroy: function destroy() {
-      axios["delete"]("/replies/" + this.data.id); // Crée un event vers Replies.vue parent de Reply
+      axios["delete"]("/replies/" + this.reply.id); // Crée un event vers Replies.vue parent de Reply
       // Cela va signifier à replies qu'une réponse à été supprimée et qu'il faut mettre à jour la liste
 
-      this.$emit("deleted", this.data.id); // $(this.$el).fadeOut(800);
+      this.$emit("deleted", this.reply.id); // $(this.$el).fadeOut(800);
 
       flash("Réponse supprimée!");
     },
     markBestReply: function markBestReply() {
       // this.isBest = true;
-      axios.post("/replies/" + this.data.id + "/best"); // Préparation de l'evenement qui servira à faire le toggle sur le marquage de la meilleur réponse - Si une autre réponse avait déjà été mise en surbrillance elle reprendra sa forme normal si on sélectionne une autre réponse comme étant meilleur
+      axios.post("/replies/" + this.reply.id + "/best"); // Préparation de l'evenement qui servira à faire le toggle sur le marquage de la meilleur réponse - Si une autre réponse avait déjà été mise en surbrillance elle reprendra sa forme normal si on sélectionne une autre réponse comme étant meilleur
 
-      window.events.$emit("best-reply-selected", this.data.id);
+      window.events.$emit("best-reply-selected", this.reply.id);
     }
   }
 });
@@ -61964,7 +61966,7 @@ var render = function() {
           { key: reply.id },
           [
             _c("reply", {
-              attrs: { data: reply },
+              attrs: { reply: reply },
               on: {
                 deleted: function($event) {
                   return _vm.remove(index)
@@ -62023,15 +62025,15 @@ var render = function() {
           [
             _c("div", { staticClass: "flex-grow-1" }, [
               _c("a", {
-                attrs: { href: "/profiles/" + _vm.data.owner.name },
-                domProps: { textContent: _vm._s(_vm.data.owner.name) }
+                attrs: { href: "/profiles/" + _vm.reply.owner.name },
+                domProps: { textContent: _vm._s(_vm.reply.owner.name) }
               }),
               _vm._v("\n        Posté\n        "),
               _c("span", { domProps: { textContent: _vm._s(_vm.ago) } })
             ]),
             _vm._v(" "),
             _vm.signedIn
-              ? _c("div", [_c("favorite", { attrs: { reply: _vm.data } })], 1)
+              ? _c("div", [_c("favorite", { attrs: { reply: _vm.reply } })], 1)
               : _vm._e()
           ]
         )
@@ -62089,61 +62091,57 @@ var render = function() {
         : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } })
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "card-footer d-flex" }, [
-      _vm.authorize("updateReply", _vm.reply)
-        ? _c("div", [
-            !_vm.editing
-              ? _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-dark btn-sm mr-2",
-                    on: {
-                      click: function($event) {
-                        _vm.editing = true
-                      }
-                    }
-                  },
-                  [
-                    _c("i", { staticClass: "fas fa-pencil-alt pr-1" }),
-                    _vm._v(" Editer\n      ")
-                  ]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            !_vm.editing
-              ? _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger btn-sm",
-                    on: { click: _vm.destroy }
-                  },
-                  [
-                    _c("i", { staticClass: "fas fa-trash pr-1" }),
-                    _vm._v(" Supprimer\n      ")
-                  ]
-                )
-              : _vm._e()
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: !_vm.isBest,
-              expression: "!isBest"
-            }
-          ],
-          staticClass: "ml-auto btn btn-sm btn-warning",
-          attrs: { title: "Meilleur Réponse?" },
-          on: { click: _vm.markBestReply }
-        },
-        [_c("i", { staticClass: "far fa-star" })]
-      )
-    ])
+    _vm.authorize("owns", _vm.reply) || _vm.authorize("owns", _vm.reply.thread)
+      ? _c("div", { staticClass: "card-footer d-flex" }, [
+          _vm.authorize("owns", _vm.reply)
+            ? _c("div", [
+                !_vm.editing
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-dark btn-sm mr-2",
+                        on: {
+                          click: function($event) {
+                            _vm.editing = true
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-pencil-alt pr-1" }),
+                        _vm._v(" Editer\n      ")
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.editing
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger btn-sm",
+                        on: { click: _vm.destroy }
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-trash pr-1" }),
+                        _vm._v(" Supprimer\n      ")
+                      ]
+                    )
+                  : _vm._e()
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.authorize("owns", _vm.reply.thread)
+            ? _c(
+                "button",
+                {
+                  staticClass: "ml-auto btn btn-sm btn-warning",
+                  attrs: { title: "Meilleur Réponse?" },
+                  on: { click: _vm.markBestReply }
+                },
+                [_c("i", { staticClass: "far fa-star" })]
+              )
+            : _vm._e()
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -74489,8 +74487,15 @@ var app = new Vue({
 
 var user = window.App.user;
 module.exports = {
-  updateReply: function updateReply(reply) {
-    return reply.user_id === user.id;
+  // updateReply(reply) {
+  //     return reply.user_id === user.id;
+  // },
+  // updateThread(thread) {
+  //     return thread.user_id === user.id;
+  // },
+  owns: function owns(model) {
+    var prop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "user_id";
+    return model[prop] == user.id;
   }
 };
 

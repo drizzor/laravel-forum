@@ -2,7 +2,7 @@
   <div>
     <!-- la clé va permettre à VUEJS de récupérer le bon élément lors de la supression  -->
     <div v-for="(reply, index) in items" :key="reply.id">
-      <reply :data="reply" @deleted="remove(index)"></reply>
+      <reply :reply="reply" @deleted="remove(index)"></reply>
     </div>
 
     <!-- Si l'event @updated est lancé, executer la méthode fetch -->
