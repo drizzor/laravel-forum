@@ -64,6 +64,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Activity::class);
     }
 
+    /**
+     * Identifier si l'utilisateur est admin
+     * Démonsatration de la façon la plus basic possible - Si on a un forum plus conséquent il faut utiliser une table rôle, ...
+     */
+    public function isAdmin()
+    {
+        return in_array($this->name, ['Drizz', 'JohnDoe']);
+    }
+
     /** 
      * Marque un thread comme lu (titre du thread ne sera plus en gras)
      */
