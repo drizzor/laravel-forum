@@ -3664,6 +3664,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
  // momentjs est un petit module permettant de travailler sur les dates (voir site)
 
@@ -62015,7 +62019,7 @@ var render = function() {
       "div",
       {
         staticClass: "card-header",
-        class: _vm.isBest ? "bg-warning text-dark" : "",
+        class: _vm.isBest ? "bg-primary text-white" : "",
         attrs: { id: "reply-" + _vm.id }
       },
       [
@@ -62025,6 +62029,7 @@ var render = function() {
           [
             _c("div", { staticClass: "flex-grow-1" }, [
               _c("a", {
+                class: _vm.isBest ? "text-warning" : "",
                 attrs: { href: "/profiles/" + _vm.reply.owner.name },
                 domProps: { textContent: _vm._s(_vm.reply.owner.name) }
               }),
