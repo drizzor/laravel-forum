@@ -7,8 +7,8 @@
 
     <!-- Si l'event @updated est lancé, executer la méthode fetch -->
     <paginator :dataSet="dataSet" @changed-page="fetch"></paginator>
-
-    <new-reply @created="add"></new-reply>
+    <h5 v-if="$parent.locked">Ce thread a été verouillé. Il n'est plus possible d'y répondre.</h5>
+    <new-reply @created="add" v-else></new-reply>
   </div>
 </template>
 

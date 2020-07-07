@@ -96,14 +96,6 @@ class Thread extends Model
      }
 
      /**
-      * Mise à jour du boolean pour le verouillage de Thread par un Admin
-      */
-     public function lock()
-     {
-          $this->update(['locked' => true]);
-     }
-
-     /**
       * N'est plus utilisé, nous exploitons listeners/events
       */
      public function notifySubcribers($reply)
