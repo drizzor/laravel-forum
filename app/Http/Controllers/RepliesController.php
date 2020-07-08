@@ -36,6 +36,10 @@ class RepliesController extends Controller
         // }
         // $this->authorize('create', new Reply);
 
+        if ($thread->locked) {
+            return response('Le thread est verouillé', 422);
+        }
+
         $reply = $thread->addReply([
             'body' => request('body'),
             'user_id' => auth()->id()

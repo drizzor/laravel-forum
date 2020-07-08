@@ -1,9 +1,13 @@
 <template>
   <div class="card mb-3">
-    <div class="card-header" :id="'reply-' + id" :class="isBest ? 'bg-warning text-dark' : ''">
+    <div class="card-header" :id="'reply-' + id" :class="isBest ? 'bg-primary text-white' : ''">
       <div class="d-flex justify-content-start align-items-center">
         <div class="flex-grow-1">
-          <a :href="'/profiles/' + reply.owner.name" v-text="reply.owner.name"></a>
+          <a
+            :class="isBest ? 'text-warning' : ''"
+            :href="'/profiles/' + reply.owner.name"
+            v-text="reply.owner.name"
+          ></a>
           Posté
           <span v-text="ago"></span>
         </div>

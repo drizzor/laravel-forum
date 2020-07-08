@@ -30,6 +30,9 @@ Route::get('/threads/{channel:slug}/{thread:slug}', 'ThreadsController@show')->n
 Route::delete('/threads/{channel:slug}/{thread}', 'ThreadsController@destroy'); // Delete a thread
 // Route::ressource('threads', 'ThreadsController'); // en une route on peut déclarer le CRUD et donc  éliminer les autres routes. Je ne l'utilise pas car je souhaite exploiter l'attribut name sur les différents route
 
+Route::put('/locked-threads/{thread}', 'LockedThreadsController@store')->name('locked-threads.store')->middleware('admin');
+Route::put('/unlocked-threads/{thread}', 'LockedThreadsController@destroy')->name('locked-threads.destroy')->middleware('admin');
+
 Route::post('/replies/{reply}/best', 'BestRepliesController@store')->name('best-replies.store'); // Meilleur réponse
 
 Route::get('/threads/{channel:slug}/{thread}/replies', 'RepliesController@index'); // Sert pour la pagination avec VUEJS

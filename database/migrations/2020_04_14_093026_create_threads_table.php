@@ -23,6 +23,7 @@ class CreateThreadsTable extends Migration
             $table->unsignedBigInteger('visits_count')->default(0);
             $table->string('title');
             $table->text('body');
+            $table->boolean('locked')->default(false);
             $table->timestamps();
 
             // J'ai préféré géré cela au niveau de PHP - Voir Reply boot

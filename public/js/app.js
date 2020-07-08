@@ -3664,6 +3664,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
  // momentjs est un petit module permettant de travailler sur les dates (voir site)
 
@@ -3834,15 +3838,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["initialRepliesCount"],
+  props: ["thread"],
   components: {
     Replies: _components_Replies_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     SubscribeButton: _components_SubscribeButton_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
-      repliesCount: this.initialRepliesCount
+      repliesCount: this.thread.replies_count,
+      locked: this.thread.locked
     };
+  },
+  methods: {
+    lock: function lock() {
+      this.locked = true;
+      axios.put("/locked-threads/" + this.thread.slug);
+    },
+    unlock: function unlock() {
+      this.locked = false;
+      axios.put("/unlocked-threads/" + this.thread.slug);
+    }
   }
 });
 
@@ -61983,7 +61998,13 @@ var render = function() {
         on: { "changed-page": _vm.fetch }
       }),
       _vm._v(" "),
-      _c("new-reply", { on: { created: _vm.add } })
+      _vm.$parent.locked
+        ? _c("h5", [
+            _vm._v(
+              "Ce thread a été verouillé. Il n'est plus possible d'y répondre."
+            )
+          ])
+        : _c("new-reply", { on: { created: _vm.add } })
     ],
     2
   )
@@ -62015,7 +62036,7 @@ var render = function() {
       "div",
       {
         staticClass: "card-header",
-        class: _vm.isBest ? "bg-warning text-dark" : "",
+        class: _vm.isBest ? "bg-primary text-white" : "",
         attrs: { id: "reply-" + _vm.id }
       },
       [
@@ -62025,6 +62046,7 @@ var render = function() {
           [
             _c("div", { staticClass: "flex-grow-1" }, [
               _c("a", {
+                class: _vm.isBest ? "text-warning" : "",
                 attrs: { href: "/profiles/" + _vm.reply.owner.name },
                 domProps: { textContent: _vm._s(_vm.reply.owner.name) }
               }),
@@ -74496,6 +74518,9 @@ module.exports = {
   owns: function owns(model) {
     var prop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "user_id";
     return model[prop] == user.id;
+  },
+  isAdmin: function isAdmin() {
+    return ["Drizz", "JohnDoe"].includes(user.name);
   }
 };
 

@@ -58,22 +58,33 @@ class Thread extends Model
           return $this->replies()->count();
      }
 
+     /**
+      * Retourne le canal du Thread
+      */
      public function channel()
      {
           return $this->belongsTo(Channel::class);
      }
 
+     /**
+      * Retourne l'auteur du thread
+      */
      public function creator()
      {
           return $this->belongsTo(User::class, 'user_id');
      }
 
-
+     /**
+      * Chemin vers un thread
+      */
      public function path()
      {
           return "/threads/" . $this->channel->slug . "/" . $this->slug;
      }
 
+     /**
+      * Execute l'ajout de la réponse en BDD & event
+      */
      public function addReply($reply)
      {
           $reply = $this->replies()->create($reply);
@@ -130,7 +141,7 @@ class Thread extends Model
      }
 
      /**
-      * Identifier les thread mis à jour et avec du nouveau contenu à lire
+      * Identifier les thread mis à jour - nouveau contenu à lire
       */
      public function hasUpdateFor($user)
      {

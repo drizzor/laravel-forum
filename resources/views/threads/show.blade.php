@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="/css/vendor/jquery.atwho.css">
 @endsection
 
-<thread-view :initial-replies-count="{{ $thread->replies_count }}" inline-template>
+<thread-view :thread="{{ $thread }}" inline-template>
     <div class="row mb-4">
         <div class="col-md-8">
 
@@ -33,9 +33,10 @@
                         <div class="body">{{ $thread->body }}</div>
                     </article>                    
                 </div>
-
-                <div class="card-footer d-flex justify-content-end">
-                    @can('update', $thread)
+                
+                @can('update', $thread)
+                    <div class="card-footer d-flex justify-content-end">
+                   
                         <form method="POST" action="{{ $thread->path() }}">
 
                             @csrf
@@ -46,8 +47,8 @@
                             </button>
 
                         </form>
-                    @endcan          
-                </div>
+                    </div>
+                @endcan          
 
             </div>
 
@@ -108,7 +109,9 @@
                     </p>
 
                     <p>
-                        <subscribe-button :active="{{ $thread->isSubscribedTo ? 'true' : 'false'}}"></subscribe-button>                        
+                        <subscribe-button :active="{{ $thread->isSubscribedTo ? 'true' : 'false'}}" v-if="signedIn"></subscribe-button>             
+                        <button class="btn btn-outline-danger btn-block" v-if="authorize('isAdmin') && !locked" @click="lock">VEROUILLER</button>  
+                        <button class="btn btn-danger btn-block" v-else @click="unlock">DEVEROUILLER</button>         
                     </p>
                 </div>
             </div>

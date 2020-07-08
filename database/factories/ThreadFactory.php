@@ -17,6 +17,7 @@ $factory->define(Thread::class, function (Faker $faker) {
         'channel_id' => Channel::count() ? Channel::pluck('id')->random() : factory(Channel::class),
         'title' => $title,
         'slug' => Str::slug($title),
-        'body' => $faker->paragraph(10)
+        'body' => $faker->paragraph(10),
+        'locked' => false
     ];
 });
