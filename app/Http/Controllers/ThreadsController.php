@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Zttp\Zttp;
 use App\Thread;
 use App\Channel;
 use App\Trending;
-use App\Rules\SpamFree;
 
+use App\Rules\SpamFree;
 use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
 
@@ -71,6 +72,18 @@ class ThreadsController extends Controller
             'body' => ['required', 'min:10', new SpamFree()],
             'channel_id' => 'required|exists:channels,id'
         ]);
+
+        // Requete Zttp - Outil utilisant Guzzle et simplifiant le mécanisme pour faire une requete http via PHP
+        // L'outil est utiliser pour effectuer la requete POST nécessaire à reCAPTCHA
+        $response = Zttp::asFormParams()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => config('services.recaptcha.secret'), // voir services.php
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $_SERVER['REMOTE_ADDR']
+        ]);
+
+        if (!$response->json()['success']) {
+            throw new \Exception('Recaptcha failed');
+        }
 
         // Create
         $thread = Thread::create([
