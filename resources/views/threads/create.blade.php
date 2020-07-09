@@ -49,6 +49,9 @@
                             </div>
                             
                             <div class="g-recaptcha" data-sitekey="6Lfi_a4ZAAAAAErt5Ts-4WmjONEjrTS9VE4Ly83L"></div> 
+                            @error ('g-recaptcha-response')
+                                   <p class="text-danger">{{ $message }}</p>                            
+                            @enderror
 
                             <button type="submit" class="btn btn-primary">Publier</button>
 
