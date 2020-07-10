@@ -22,12 +22,13 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/threads', 'ThreadsController@index')->name('threads'); // index all threads
-Route::post('/threads', 'ThreadsController@store')->middleware(['verified', 'auth'])->name('add_thread'); // Store thread
-Route::get('/threads/create', 'ThreadsController@create')->name('create_thread'); // Add thread page
+Route::get('/threads', 'ThreadsController@index')->name('threads');
+Route::post('/threads', 'ThreadsController@store')->middleware(['verified', 'auth'])->name('add_thread');
+Route::get('/threads/create', 'ThreadsController@create')->name('create_thread');
 Route::get('/threads/{channel:slug}', 'ThreadsController@index'); // index threads by channel
-Route::get('/threads/{channel:slug}/{thread:slug}', 'ThreadsController@show')->name('thread'); // Show a thread
-Route::delete('/threads/{channel:slug}/{thread}', 'ThreadsController@destroy'); // Delete a thread
+Route::get('/threads/{channel:slug}/{thread:slug}', 'ThreadsController@show')->name('thread');
+Route::put('/threads/{channel:slug}/{thread:slug}', 'ThreadsController@update')->name('thread.update');
+Route::delete('/threads/{channel:slug}/{thread}', 'ThreadsController@destroy');
 // Route::ressource('threads', 'ThreadsController'); // en une route on peut déclarer le CRUD et donc  éliminer les autres routes. Je ne l'utilise pas car je souhaite exploiter l'attribut name sur les différents route
 
 Route::put('/locked-threads/{thread}', 'LockedThreadsController@store')->name('locked-threads.store')->middleware('admin');

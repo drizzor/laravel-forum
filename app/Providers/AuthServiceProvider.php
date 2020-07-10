@@ -27,7 +27,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // L'utilisateur nommé ici aura tous les droits peu importe les différentes policies
+        // L'utilisateur nommé ici aura tous les droits peu importe les différentes policies (toute déclaration faite ici est global)
         // Gate::before(function ($user){
         //     if ($user->name === 'Kevin Mary') return true;
         // });
