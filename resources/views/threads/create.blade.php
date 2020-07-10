@@ -1,4 +1,7 @@
 <x-master>
+    @section('header')
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    @endsection
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -44,6 +47,11 @@
                                 </div>                                
                               @enderror
                             </div>
+                            
+                            <div class="g-recaptcha" data-sitekey="6Lfi_a4ZAAAAAErt5Ts-4WmjONEjrTS9VE4Ly83L"></div> 
+                            @error ('g-recaptcha-response')
+                                   <p class="text-danger">{{ $message }}</p>                            
+                            @enderror
 
                             <button type="submit" class="btn btn-primary">Publier</button>
 

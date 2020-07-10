@@ -31,9 +31,9 @@
             <div class="body">{{ $thread->body }}</div>
         </div>
 
-        <div class="card-footer">
+        {{-- <div class="card-footer">
             
-        </div>
+        </div> --}}
     </div>
 @empty
     <p>Aucun thread trouvé pour l'instant.</p>            
