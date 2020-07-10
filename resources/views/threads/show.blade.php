@@ -5,7 +5,7 @@
 @endsection
 
 <thread-view :thread="{{ $thread }}" inline-template>
-    <div class="row mb-4" v-cloack>
+    <div class="row mb-4" v-cloak>
         
         @include('threads._thread')
 

@@ -2,21 +2,21 @@
     {{-- Editing mode --}}
     <div class="card mb-3" v-if="editing">
         <div class="card-header">
-            <input type="text" class="form-control form-control-lg" value="{{ $thread->title }}" autofocus>                      
+            <input type="text" class="form-control form-control-lg" v-model="form.title" autofocus>                      
         </div>
 
         <div class="card-body">
-            <textarea class="form-control">{{ $thread->body }}</textarea>
+            <textarea class="form-control" v-model="form.body"></textarea>
         </div>
         
         @can('update', $thread)
 
             <div class="card-footer d-flex">
-                <button class="btn btn-outline-primary btn-sm mr-1" title="Editer le thread" @click="editing = false">
+                <button class="btn btn-outline-primary btn-sm mr-1" title="Editer le thread" @click="update">
                     Editer
                 </button>
 
-                <button class="btn btn-outline-secondary btn-sm mr-1" title="Editer le thread" @click="editing = false">
+                <button class="btn btn-outline-secondary btn-sm mr-1" title="Editer le thread" @click="cancel">
                     Annuler
                 </button>
 
@@ -42,9 +42,7 @@
         <div class="card-header">
             <div class="d-flex align-items-end">                        
                 <img src="{{ $thread->creator->avatar_path }}" width="50" height="50" class="rounded-circle mr-3">   
-                <h4 class="flex-grow-1 text-dark">                            
-                    {{ ucfirst($thread->title) }}
-                </h4>                                 
+                <h4 class="flex-grow-1 text-dark" v-text="form.title"></h4>                                
             </div>                                         
             <div class="mt-2 text-sm text-muted">
                 Créé par  <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a>
@@ -53,9 +51,7 @@
         </div>
 
         <div class="card-body">
-            <article>
-                <div class="body">{{ $thread->body }}</div>
-            </article>                    
+            <div class="body" v-text="form.body"></div>
         </div>
         
         @can('update', $thread)
