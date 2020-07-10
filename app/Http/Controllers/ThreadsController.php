@@ -64,7 +64,7 @@ class ThreadsController extends Controller
         ]);
     }
 
-    public function store(Request $request, Recaptcha $recaptcha)
+    public function store(Recaptcha $recaptcha)
     {
         // Validate
         $attributes = request()->validate([
