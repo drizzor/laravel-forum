@@ -28,7 +28,7 @@
             <div class="form-group">
                 <textarea class="form-control" v-model="body"></textarea>
             </div>
-            <button class="btn btn-sm btn-outline-success" @click="update">
+            <button class="btn btn-sm btn-outline-primary" @click="update">
                 <i class="fas fa-check"></i> Valider
             </button>
             <button class="btn btn-sm btn-outline-secondary" @click="editing = false">

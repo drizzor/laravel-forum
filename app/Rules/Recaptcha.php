@@ -45,8 +45,6 @@ class Recaptcha implements Rule
             'remoteip' => request()->ip()
         ]);
 
-        dd($value);
-
         return ($response->json()['success']);
     }
 

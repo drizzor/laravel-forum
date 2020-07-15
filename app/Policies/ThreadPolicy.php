@@ -14,7 +14,8 @@ class ThreadPolicy
     {
         // L'utilisateur nommé Kevin Mary peut executer toutes les actions, peu importe les règles d'accès et d'actions liés au SI
         // Le laissé-passé est limité aux threads, pour avoir un laissé-passé global voir AuthServiceProvider et y mettre directement la règle
-        if ($user->name === 'Kevin Mary') return true;
+        // if ($user->name === 'Drizz') return true;
+        if ($user->isAdmin()) return true;
     }
 
     /**

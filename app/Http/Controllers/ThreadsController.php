@@ -64,7 +64,7 @@ class ThreadsController extends Controller
         ]);
     }
 
-    public function store(Request $request, Recaptcha $recaptcha)
+    public function store(Recaptcha $recaptcha)
     {
         // Validate
         $attributes = request()->validate([
@@ -88,14 +88,19 @@ class ThreadsController extends Controller
             ->with('flash', 'Votre thread a été publié.');
     }
 
-    public function edit(Thread $thread)
-    {
-        //
-    }
-
     public function update($channel, Thread $thread)
     {
-        //
+        // authorization
+        $this->authorize('update', $thread);
+
+        // validation
+        $attributes = request()->validate([
+            'title' => ['required', 'max:30', 'min:5', new SpamFree()],
+            'body' => ['required', 'min:10', new SpamFree()],
+        ]);
+
+        // update the thread
+        $thread->update($attributes);
     }
 
     public function destroy(Channel $channel, Thread $thread, Trending $trending)
