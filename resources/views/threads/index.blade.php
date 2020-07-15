@@ -19,6 +19,25 @@
     </div>
 
     <div class="col-md-4">
+        <div class="card mb-2">
+            <div class="card-header">
+                Rechercher
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ route('threads.search') }}">
+                    @csrf
+                    @method('GET')
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="q" placeholder="Votre Recherche...">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+                        </div>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div class="card">
             <div class="card-header">
                 Sujets Populaires
