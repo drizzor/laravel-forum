@@ -24,6 +24,7 @@
     
     <style>
         [v-clock] { display: none; }
+        .ais-highlight > em { font-weight: bold; font-style: normal }
     </style>
 
     {{-- Scripts --}}

@@ -2,15 +2,15 @@
 
 namespace App;
 
-// use App\Notifications\ThreadWasUpdated;
-// use App\Events\ThreadHasNewReply; // Sert au système de notif
 use Illuminate\Support\Str;
 use App\Events\ThreadReceivedNewReply;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Thread extends Model
 {
      use RecordsActivity;
+     use Searchable;
 
      protected $guarded = [];
 
@@ -191,5 +191,14 @@ class Thread extends Model
           $this->update(['best_reply_id' => $reply->id]);
           // $this->best_reply_id = $reply->id;
           // $this->save();
+     }
+
+     /**
+      * Overide de la méthode du trait Searchable
+      * Je suis ainsi capable d'arbitrer ce qui sera récupéré sur Algolia - Ici je garde le mécanisme par défaut, mais je demande de prendre en plus le path de chaque Thread
+      */
+     public function toSearchableArray()
+     {
+          return $this->toArray() + ['path' => $this->path()];
      }
 }

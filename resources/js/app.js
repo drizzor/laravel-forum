@@ -5,6 +5,7 @@
  */
 
 require("./bootstrap");
+import InstantSearch from "vue-instantsearch";
 
 // window.events = new Vue();
 // window.flash = function( message ) {
@@ -45,6 +46,7 @@ Vue.prototype.signedIn = window.App.signedIn;
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+Vue.use(InstantSearch);
 
 Vue.component("flash", require("./components/Flash.vue").default);
 Vue.component("paginator", require("./components/Paginator.vue").default);

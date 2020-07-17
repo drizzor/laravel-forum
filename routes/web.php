@@ -22,9 +22,12 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::view('scan', 'scan');
+
 Route::get('/threads', 'ThreadsController@index')->name('threads');
 Route::post('/threads', 'ThreadsController@store')->middleware(['verified', 'auth'])->name('add_thread');
 Route::get('/threads/create', 'ThreadsController@create')->name('create_thread');
+Route::get('/threads/search', 'SearchController@show')->name('threads.search');
 Route::get('/threads/{channel:slug}', 'ThreadsController@index'); // index threads by channel
 Route::get('/threads/{channel:slug}/{thread:slug}', 'ThreadsController@show')->name('thread');
 Route::put('/threads/{channel:slug}/{thread:slug}', 'ThreadsController@update')->name('thread.update');
