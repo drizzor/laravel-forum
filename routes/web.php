@@ -22,6 +22,8 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::view('scan', 'scan');
+
 Route::get('/threads', 'ThreadsController@index')->name('threads');
 Route::post('/threads', 'ThreadsController@store')->middleware(['verified', 'auth'])->name('add_thread');
 Route::get('/threads/create', 'ThreadsController@create')->name('create_thread');

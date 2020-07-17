@@ -192,4 +192,13 @@ class Thread extends Model
           // $this->best_reply_id = $reply->id;
           // $this->save();
      }
+
+     /**
+      * Overide de la méthode du trait Searchable
+      * Je suis ainsi capable d'arbitrer ce qui sera récupéré sur Algolia - Ici je garde le mécanisme par défaut, mais je demande de prendre en plus le path de chaque Thread
+      */
+     public function toSearchableArray()
+     {
+          return $this->toArray() + ['path' => $this->path()];
+     }
 }
