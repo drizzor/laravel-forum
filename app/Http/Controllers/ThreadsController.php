@@ -66,6 +66,8 @@ class ThreadsController extends Controller
 
     public function store(Recaptcha $recaptcha)
     {
+        // dd(request()->all());
+
         // Validate
         $attributes = request()->validate([
             'title' => ['required', 'max:30', 'min:5', new SpamFree()],

@@ -6,7 +6,8 @@
         </div>
 
         <div class="card-body">
-            <textarea class="form-control" v-model="form.body"></textarea>
+            <wysiwyg name="body" v-model="form.body" :value="form.body"></wysiwyg>  
+            {{-- <textarea class="form-control" v-model="form.body"></textarea> --}}
         </div>
         
         @can('update', $thread)
@@ -51,7 +52,7 @@
         </div>
 
         <div class="card-body">
-            <div class="body" v-text="form.body"></div>
+            <div class="body" v-html="form.body"></div>
         </div>
         
         @can('update', $thread)

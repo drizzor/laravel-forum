@@ -1,6 +1,6 @@
 <x-master>
     @section('header')
-        {{-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> --}}
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     @endsection
     <div class="container">
         <div class="row justify-content-center">
@@ -14,18 +14,16 @@
                             @csrf
 
                             <div class="form-group">
-                                <label for="channel_id">Choisir Un Canal</label>
-                                <select class="form-control @error('channel_id') is-invalid @enderror" name="channel_id" id="channel_id" required>
-                                <option value="">Votre Choix...</option>  
-                                @foreach ($channels as $channel)
-                                    <option value="{{ $channel->id }}" {{ old('channel_id') != $channel->id ?: 'selected' }}>{{ $channel->name }}</option>
-                                @endforeach
+                                <label for="channel_id">Choose a Channel:</label>
+                                <select name="channel_id" id="channel_id" class="form-control" required>
+                                    <option value="">Choose One...</option>
+
+                                    @foreach ($channels as $channel)
+                                        <option value="{{ $channel->id }}" {{ old('channel_id') == $channel->id ? 'selected' : '' }}>
+                                            {{ $channel->name }}
+                                        </option>
+                                    @endforeach
                                 </select>
-                                @error ('channel_id')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
                             </div>
 
                             <div class="form-group">
@@ -40,19 +38,19 @@
 
                             <div class="form-group">
                                 <label for="body">Votre Message</label>
-                                <wysiwyg></wysiwyg>                                    
+                                <wysiwyg name="body"></wysiwyg>                                    
                                 {{-- <textarea class="form-control @error('body') is-invalid @enderror" name="body" id="body" rows="5" required> {{ old('body') }} </textarea> --}}
                                 @error ('body')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>                                
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>                                
                                 @enderror
                             </div>
                                 
-                            {{-- <div class="g-recaptcha" data-sitekey="6Lfi_a4ZAAAAAErt5Ts-4WmjONEjrTS9VE4Ly83L"></div> 
+                            <div class="g-recaptcha" data-sitekey="6Lfi_a4ZAAAAAErt5Ts-4WmjONEjrTS9VE4Ly83L"></div> 
                             @error ('g-recaptcha-response')
-                                    <p class="text-danger">{{ $message }}</p>                            
-                            @enderror --}}
+                                <p class="text-danger">{{ $message }}</p>                            
+                            @enderror
 
                             <button type="submit" class="btn btn-primary">Publier</button>
 

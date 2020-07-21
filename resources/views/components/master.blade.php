@@ -21,6 +21,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.3/trix.css">
     
     <style>
         [v-clock] { display: none; }
@@ -51,6 +52,5 @@
         </main>
 
     </div>
-    {{-- <script src="http://unpkg.com/turbolinks"></script> --}}
 </body>
 </html>
