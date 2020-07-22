@@ -30,7 +30,7 @@
             <i class="fas fa-check"></i> Valider
           </button>
 
-          <button class="btn btn-sm btn-outline-secondary" @click="editing = false" type="button">
+          <button class="btn btn-sm btn-outline-secondary" @click="cancel" type="button">
             <i class="fas fa-undo"></i> Annuler
           </button>
         </form>
@@ -122,6 +122,11 @@ export default {
       this.editing = false;
 
       flash("Modification effectuée!");
+    },
+
+    cancel() {
+      this.body = this.reply.body;
+      this.editing = false;
     },
 
     destroy() {

@@ -11654,6 +11654,10 @@ __webpack_require__.r(__webpack_exports__);
       this.editing = false;
       flash("Modification effectuée!");
     },
+    cancel: function cancel() {
+      this.body = this.reply.body;
+      this.editing = false;
+    },
     destroy: function destroy() {
       axios["delete"]("/replies/" + this.reply.id); // Crée un event vers Replies.vue parent de Reply
       // Cela va signifier à replies qu'une réponse à été supprimée et qu'il faut mettre à jour la liste
@@ -86922,11 +86926,7 @@ var render = function() {
                 {
                   staticClass: "btn btn-sm btn-outline-secondary",
                   attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      _vm.editing = false
-                    }
-                  }
+                  on: { click: _vm.cancel }
                 },
                 [
                   _c("i", { staticClass: "fas fa-undo" }),
